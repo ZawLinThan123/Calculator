@@ -5,7 +5,7 @@
 #pragma once
 
 #include <stack>
-#include <cmath> // CLion said math.h is deprecated and suggest to use cmath instead :)
+#include <cmath> // CLion said math.h is deprecated and suggested to use cmath instead
 #include <string>
 #include <iostream>
 #include <stdexcept>

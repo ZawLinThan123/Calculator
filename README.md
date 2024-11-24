@@ -14,7 +14,6 @@ A comprehensive C++ scientific calculator implementation that uses stack data st
 - Parentheses support for complex expressions
 - Operator precedence handling using stack
 - Error handling and input validation
-- Expression evaluation using Shunting Yard algorithm
 
 ### Technical Implementation
 - Uses two stacks:

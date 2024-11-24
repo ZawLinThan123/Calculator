@@ -1,7 +1,7 @@
 # Scientific Calculator Project
 
 ## Overview
-A comprehensive C++ scientific calculator implementation with support for basic arithmetic operations, scientific functions, and complex mathematical expressions. The project demonstrates different data structure implementations (Stack and Doubly Linked List) for expression evaluation.
+A comprehensive C++ scientific calculator implementation that uses stack data structure for evaluating mathematical expressions. The calculator handles basic arithmetic operations and complex expressions using the Shunting Yard algorithm for operator precedence.
 
 ## Authors
 - Lin Phone Pyae Han
@@ -12,40 +12,37 @@ A comprehensive C++ scientific calculator implementation with support for basic 
 ### Core Functionality
 - Basic arithmetic operations (+, -, *, /, ^)
 - Parentheses support for complex expressions
-- Operator precedence handling
+- Operator precedence handling using stack
 - Error handling and input validation
+- Expression evaluation using Shunting Yard algorithm
 
-### Implementation Variants
-1. Stack-based Implementation
-    - Uses standard C++ stack for expression evaluation
-    - Implements Shunting Yard algorithm for operator precedence
-    - Efficient memory management using STL containers
-
-2. Doubly Linked List Implementation
-    - Custom doubly linked list data structure
-    - Manual memory management
-    - Bidirectional traversal capability
-    - Flexible for modifications and extensions
+### Technical Implementation
+- Uses two stacks:
+    - Number stack for operands
+    - Operator stack for operations
+- Implements operator precedence:
+    - Level 3: Power (^)
+    - Level 2: Multiplication (*), Division (/)
+    - Level 1: Addition (+), Subtraction (-)
+- Proper handling of parentheses
+- Comprehensive error checking
 
 ## Technical Details
 
 ### Data Structures
-1. Stack Version
-    - Uses `std::stack` for operators and values
-    - LIFO (Last In First Out) principle
-    - Automatic memory management
+- `std::stack` for operators and values
+- LIFO (Last In First Out) principle for expression evaluation
+- Efficient memory management using STL containers
 
-2. Doubly Linked List Version
-    - Custom `Node` structure
-    - `DoublyLinkedList` template class
-    - Manual memory management
-    - Bidirectional node linking
-
-### Algorithms
-- Shunting Yard Algorithm for expression parsing
-- Operator precedence handling
-- Expression validation
-- Error detection and handling
+### Algorithm
+The calculator uses the Shunting Yard algorithm to handle operator precedence:
+1. Scan expression from left to right
+2. If number: push to number stack
+3. If operator: compare precedence with top of operator stack
+    - Higher precedence: push to operator stack
+    - Lower/equal precedence: evaluate operators in stack first
+4. If opening parenthesis: push to operator stack
+5. If closing parenthesis: evaluate until matching opening parenthesis
 
 ## Building and Running
 
@@ -55,18 +52,12 @@ A comprehensive C++ scientific calculator implementation with support for basic 
 
 ### Compilation
 ```bash
-# For Stack implementation
-g++ calculator_stack.cpp -o calculator_stack
-
-# For Doubly Linked List implementation
-g++ calculator_dll.cpp -o calculator_dll
+g++ calculator.cpp -o calculator
 ```
 
 ### Running the Program
 ```bash
-./calculator_stack
-# or
-./calculator_dll
+./calculator
 ```
 
 ## Usage Examples
@@ -79,37 +70,32 @@ Output: 14
 Input: (2 + 3) * 4
 Output: 20
 
-// Complex expressions
-Input: 2 * 3 + 4 * 5
-Output: 26
+// Power operation
+Input: 2 ^ 3 + 1
+Output: 9
 ```
 
 ## Current Development Status
 - [x] Basic arithmetic operations
-- [x] Expression parsing
-- [x] Stack implementation
-- [x] Doubly Linked List implementation
+- [x] Expression parsing with Shunting Yard algorithm
+- [x] Stack-based implementation
+- [x] Operator precedence handling
+- [x] Parentheses support
 - [ ] Scientific functions (sin, cos, tan)
 - [ ] Memory functions
-- [ ] GUI interface
-- [ ] Unit testing
+- [ ] Error history logging
 
 ## Future Enhancements
-1. Additional Scientific Functions
+1. Scientific Functions
     - Trigonometric functions
     - Logarithmic functions
     - Square root and power functions
 
-2. User Interface Improvements
-    - GUI implementation
-    - Better error messages
-    - Input validation
-
-3. Additional Features
+2. Calculator Features
     - Memory functions (M+, M-, MR, MC)
     - History of calculations
-    - Unit conversions
-    - Different number systems (binary, hex)
+    - Better error messages
+    - Input validation improvements
 
 ## Contributing
 This is an ongoing project by Lin Phone Pyae Han and Zaw Lin Than. If you'd like to contribute or have suggestions, please contact the authors.
@@ -123,4 +109,4 @@ This project is currently under development and all rights are reserved to the a
 
 ## Acknowledgments
 - Thanks to our instructors and mentors
-- References to data structure and algorithm resources used in the project
+- References to stack data structure and Shunting Yard algorithm resources

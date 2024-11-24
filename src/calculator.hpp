@@ -114,6 +114,25 @@ private:
                 values.push(stod(num));
             }
 
+            // Handle parentheses
+            else if (expr[i] == '(') {
+                ops.push(expr[i]);
+            }
+            else if (expr[i] == ')') {
+                while (!ops.empty() && ops.top() != '(') {
+                    double b = values.top();
+                    values.pop();
+                    double a = values.top();
+                    values.pop();
+                    char op = ops.top();
+                    ops.pop();
+                    values.push(calculate(a, b, op));
+                }
+                if (!ops.empty()) {
+                    ops.pop();
+                }
+            }
+
             else if (isOperator(expr[i])) {
                 while (!ops.empty() && getPrecedence(ops.top()) >= getPrecedence(expr[i])) {
                     double b = values.top();

@@ -1,4 +1,4 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -G Ninja -S "/Users/zawlinthan/Library/CloudStorage/GoogleDrive-zawlinthan.smc@gmail.com/My Drive/C++ Project/Calculator" -B "/Users/zawlinthan/Library/CloudStorage/GoogleDrive-zawlinthan.smc@gmail.com/My Drive/C++ Project/Calculator/cmake-build-debug"
--- Configuring done (0.0s)
--- Generating done (0.0s)
--- Build files have been written to: /Users/zawlinthan/Library/CloudStorage/GoogleDrive-zawlinthan.smc@gmail.com/My Drive/C++ Project/Calculator/cmake-build-debug
+C:\Users\linph\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "MinGW Makefiles" -S "C:\Users\linph\Desktop\C++ Projects\Calculator" -B "C:\Users\linph\Desktop\C++ Projects\Calculator\cmake-build-debug"
+-- Configuring done (0.6s)
+-- Generating done (0.1s)
+-- Build files have been written to: C:/Users/linph/Desktop/C++ Projects/Calculator/cmake-build-debug

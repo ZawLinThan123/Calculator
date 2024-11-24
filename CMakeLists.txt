@@ -7,5 +7,5 @@ include_directories(src)
 
 add_executable(
         Calculator main.cpp
-        src/calculator.cpp
-        src/calculator.h)
+        src/calculator.hpp
+)

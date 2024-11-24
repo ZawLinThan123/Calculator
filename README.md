@@ -1,7 +1,7 @@
 # Scientific Calculator Project
 
 ## Overview
-A comprehensive C++ scientific calculator implementation that uses stack data structure for evaluating mathematical expressions. The calculator handles basic arithmetic operations and complex expressions using the Shunting Yard algorithm for operator precedence.
+A comprehensive C++ scientific calculator implementation that uses stack data structure for evaluating mathematical expressions. The calculator handles basic arithmetic operations and complex expressions.
 
 ## Authors
 - Lin Phone Pyae Han

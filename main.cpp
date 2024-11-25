@@ -4,6 +4,5 @@
 int main() {
     ScientificCalculator calc;
     calc.run();
-
     return 0;
 }

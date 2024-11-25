@@ -56,7 +56,7 @@ private:
     const double PI = 3.14159265358979323846;
     const double E = 2.71828182845904523536;
 
-    // Check if token is an operator
+    // Check if the character is an operator
     bool isOperator(char c) {
         return (c == '+' || c == '-' || c == '*' || c == '/' || c == '^');
     }
@@ -136,22 +136,33 @@ private:
             else if (isOperator(expr[i])) {
                 while (!ops.empty() && getPrecedence(ops.top()) >= getPrecedence(expr[i])) {
                     double b = values.top();
+                    std::cout << b << std::endl;
                     values.pop();
                     double a = values.top();
+                    std::cout << a << std::endl;
                     values.pop();
                     char op = ops.top();
+                    std::cout << op << std::endl;
                     ops.pop();
                     values.push(calculate(a, b, op));
+                    std::cout << calculate(a, b, op) << std::endl;
                 }
                 ops.push(expr[i]);
             }
         }
 
         while (!ops.empty()) {
-            double b = values.top(); values.pop();
-            double a = values.top(); values.pop();
-            char op = ops.top(); ops.pop();
+            double b = values.top();
+            std::cout << b << std::endl;
+            values.pop();
+            double a = values.top();
+            std::cout << a << std::endl;
+            values.pop();
+            char op = ops.top();
+            std::cout << op << std::endl;
+            ops.pop();
             values.push(calculate(a, b, op));
+            std::cout << calculate(a, b, op) << std::endl;
         }
 
         return values.top();

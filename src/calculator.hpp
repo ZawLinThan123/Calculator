@@ -5,6 +5,7 @@
 #pragma once
 
 #include <stack>
+#include <queue>
 #include <cmath> // CLion said math.h is deprecated and suggested to use cmath instead
 #include <string>
 #include <iostream>
@@ -57,12 +58,12 @@ private:
     const double E = 2.71828182845904523536;
 
     // Check if the character is an operator
-    bool isOperator(char c) {
+    static bool isOperator(const char c) {
         return (c == '+' || c == '-' || c == '*' || c == '/' || c == '^');
     }
 
     // Get operator precedence
-    int getPrecedence(char op) {
+    static int getPrecedence(const char op) {
         if (op == '^') {
             return 3;
         }
@@ -75,7 +76,7 @@ private:
         return 0;
     }
 
-    double calculate(double a, double b, char op) {
+    static double calculate(const double a, const double b, const char op) {
         switch (op) {
             case '+':
                 return a + b;
@@ -95,76 +96,91 @@ private:
         }
     }
 
-    double evaluateExpression(std::string expr) {
-        std::stack<double> values;
-        std::stack<char> ops;
+    static std::queue<std::string> translateToPostfix(const std::string& expression) {
+        std::stack<char> operations;
+        std::queue<std::string> values;
 
-        for (size_t i = 0; i < expr.length(); i++) {
-            if (expr[i] == ' ') {
+        for (size_t i = 0; i < expression.length(); ++i) {
+            if (expression[i] == ' ') {
                 continue;
             }
 
-            // Handle numbers
-            if (isdigit(expr[i]) || expr[i] == '.') {
+            if (isdigit(expression[i]) || expression[i] == '.') {
+                // Handle multi-digit numbers and decimals
                 std::string num;
-                while (i < expr.length() && (isdigit(expr[i]) || expr[i] == '.')) {
-                    num += expr[i++];
+                while (i < expression.length() && (isdigit(expression[i]) || expression[i] == '.'))
+                {
+                    num += expression[i++];
                 }
-                i--;
-                values.push(stod(num));
+                --i; // Adjust for extra increment in the loop
+                values.push(num);
             }
 
-            // Handle parentheses
-            else if (expr[i] == '(') {
-                ops.push(expr[i]);
+            else if (expression[i] == '(')
+            {
+                operations.push(expression[i]);
             }
-            else if (expr[i] == ')') {
-                while (!ops.empty() && ops.top() != '(') {
-                    double b = values.top();
-                    values.pop();
-                    double a = values.top();
-                    values.pop();
-                    char op = ops.top();
-                    ops.pop();
-                    values.push(calculate(a, b, op));
+
+            else if (expression[i] == ')') {
+                while (!operations.empty() && operations.top() != '(')
+                {
+                    values.push(std::string(1, operations.top()));
+                    operations.pop();
                 }
-                if (!ops.empty()) {
-                    ops.pop();
+
+                if (!operations.empty())
+                {
+                    operations.pop(); // Remove '('
                 }
             }
 
-            else if (isOperator(expr[i])) {
-                while (!ops.empty() && getPrecedence(ops.top()) >= getPrecedence(expr[i])) {
-                    double b = values.top();
-                    std::cout << b << std::endl;
-                    values.pop();
-                    double a = values.top();
-                    std::cout << a << std::endl;
-                    values.pop();
-                    char op = ops.top();
-                    std::cout << op << std::endl;
-                    ops.pop();
-                    values.push(calculate(a, b, op));
-                    std::cout << calculate(a, b, op) << std::endl;
+            else if (isOperator(expression[i]))
+            {
+                while (!operations.empty() && getPrecedence(operations.top()) >= getPrecedence(expression[i]))
+                {
+                    values.push(std::string(1, operations.top()));
+                    operations.pop();
                 }
-                ops.push(expr[i]);
+                operations.push(expression[i]);
             }
         }
 
-        while (!ops.empty()) {
-            double b = values.top();
-            std::cout << b << std::endl;
-            values.pop();
-            double a = values.top();
-            std::cout << a << std::endl;
-            values.pop();
-            char op = ops.top();
-            std::cout << op << std::endl;
-            ops.pop();
-            values.push(calculate(a, b, op));
-            std::cout << calculate(a, b, op) << std::endl;
+        // Pop remaining operators from the stack
+        while (!operations.empty()) {
+            values.push(std::string(1, operations.top()));
+            operations.pop();
         }
 
-        return values.top();
+        return values;
+    }
+
+    static double evaluateExpression(const std::string& expression)
+    {
+        std::queue<std::string> postfixQueue = translateToPostfix(expression);
+        double result;
+        std::stack<double> postfixStack;
+
+        while (!postfixQueue.empty())
+        {
+            if (isOperator(postfixQueue.front()[0]))
+            {
+                if (postfixStack.size() < 2)
+                {
+                    throw std::runtime_error("Error: The expression is not a valid expression!");
+                }
+                double second = postfixStack.top(); postfixStack.pop();
+                double first = postfixStack.top(); postfixStack.pop();
+                result = calculate(first, second, postfixQueue.front()[0]);
+                postfixQueue.pop();
+                postfixStack.push(result);
+            }
+            else
+            {
+                postfixStack.push(std::stod(postfixQueue.front()));
+                postfixQueue.pop();
+            }
+        }
+
+        return result;
     }
 };

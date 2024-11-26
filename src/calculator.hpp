@@ -58,21 +58,26 @@ private:
     const double E = 2.71828182845904523536;
 
     // Check if the character is an operator
-    static bool isOperator(const char c) {
+    static bool isOperator(const char c)
+    {
         return (c == '+' || c == '-' || c == '*' || c == '/' || c == '^');
     }
 
     // Get operator precedence
     static int getPrecedence(const char op) {
-        if (op == '^') {
+        if (op == '^')
+        {
             return 3;
         }
-        if (op == '*' || op == '/') {
+        if (op == '*' || op == '/')
+        {
             return 2;
         }
-        if (op == '+' || op == '-') {
+        if (op == '+' || op == '-')
+        {
             return 1;
         }
+
         return 0;
     }
 
@@ -85,7 +90,8 @@ private:
             case '*':
                 return a * b;
             case '/':
-                if (b == 0) {
+                if (b == 0)
+                {
                     throw std::runtime_error("Divide by zero");
                 }
                 return a / b;
@@ -100,12 +106,15 @@ private:
         std::stack<char> operations;
         std::queue<std::string> values;
 
-        for (size_t i = 0; i < expression.length(); ++i) {
-            if (expression[i] == ' ') {
+        for (size_t i = 0; i < expression.length(); ++i)
+        {
+            if (expression[i] == ' ')
+            {
                 continue;
             }
 
-            if (isdigit(expression[i]) || expression[i] == '.') {
+            if (isdigit(expression[i]) || expression[i] == '.')
+            {
                 // Handle multi-digit numbers and decimals
                 std::string num;
                 while (i < expression.length() && (isdigit(expression[i]) || expression[i] == '.'))
@@ -121,7 +130,8 @@ private:
                 operations.push(expression[i]);
             }
 
-            else if (expression[i] == ')') {
+            else if (expression[i] == ')')
+            {
                 while (!operations.empty() && operations.top() != '(')
                 {
                     values.push(std::string(1, operations.top()));
@@ -146,7 +156,8 @@ private:
         }
 
         // Pop remaining operators from the stack
-        while (!operations.empty()) {
+        while (!operations.empty())
+        {
             values.push(std::string(1, operations.top()));
             operations.pop();
         }

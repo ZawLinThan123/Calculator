@@ -52,7 +52,7 @@ The calculator uses the Shunting Yard algorithm to handle operator precedence:
 
 ### Compilation
 ```bash
-g++ calculator.cpp -o calculator
+g++ main.cpp -o calculator
 ```
 
 ### Running the Program

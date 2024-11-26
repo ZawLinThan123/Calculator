@@ -76,7 +76,8 @@ private:
     // ^ (exponentiation) has the highest precedence
     // * and / have medium precedence
     // + and - have the lowest precedence
-    static int getPrecedence(const char op) {
+    static int getPrecedence(const char op)
+    {
         if (op == '^')
         {
             return 3;
@@ -96,8 +97,10 @@ private:
     // Perform calculation based on the given operator
     // Supports addition, subtraction, multiplication, division, and exponentiation
     // Includes error handling for division by zero
-    static double calculate(const double a, const double b, const char op) {
-        switch (op) {
+    static double calculate(const double a, const double b, const char op)
+    {
+        switch (op)
+        {
             case '+':
                 return a + b;
             case '-':
@@ -206,7 +209,7 @@ private:
                 // Ensure enough operands are available
                 if (postfixStack.size() < 2)
                 {
-                    throw std::runtime_error("Error: The expression is not a valid expression!");
+                    throw std::runtime_error("Invalid expression");
                 }
                 // Pop two operands and perform calculation
                 double second = postfixStack.top(); postfixStack.pop();

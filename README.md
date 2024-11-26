@@ -1,7 +1,7 @@
 # Scientific Calculator Project
 
 ## Overview
-A comprehensive C++ scientific calculator implementation that uses stack data structure for evaluating mathematical expressions. The calculator handles basic arithmetic operations and complex expressions using the Shunting Yard algorithm for operator precedence.
+A sophisticated C++ scientific calculator that uses stack data structures and the Shunting Yard algorithm to evaluate complex mathematical expressions with proper operator precedence.
 
 ## Authors
 - Lin Phone Pyae Han
@@ -11,38 +11,44 @@ A comprehensive C++ scientific calculator implementation that uses stack data st
 
 ### Core Functionality
 - Basic arithmetic operations (+, -, *, /, ^)
+- Support for mathematical constants (pi, e)
 - Parentheses support for complex expressions
-- Operator precedence handling using stack
-- Error handling and input validation
-- Expression evaluation using Shunting Yard algorithm
+- Operator precedence handling
+- Error handling for divide by zero and invalid expressions
+- Interactive command-line interface
 
-### Technical Implementation
-- Uses two stacks:
-    - Number stack for operands
-    - Operator stack for operations
-- Implements operator precedence:
-    - Level 3: Power (^)
+### Technical Highlights
+- Implements Shunting Yard algorithm for expression parsing
+- Supports multi-digit and decimal number parsing
+- Handles operator precedence:
+    - Level 3: Exponentiation (^)
     - Level 2: Multiplication (*), Division (/)
     - Level 1: Addition (+), Subtraction (-)
 - Proper handling of parentheses
 - Comprehensive error checking
 
-## Technical Details
+## Technical Implementation
+
+### Key Methods
+- `run()`: Main interactive calculator interface
+- `translateToPostfix()`: Converts infix expressions to postfix notation
+- `evaluateExpression()`: Processes and calculates expression results
+- `calculate()`: Performs actual mathematical operations
 
 ### Data Structures
-- `std::stack` for operators and values
-- LIFO (Last In First Out) principle for expression evaluation
+- `std::stack` for operator management
+- `std::queue` for postfix expression processing
 - Efficient memory management using STL containers
 
-### Algorithm
-The calculator uses the Shunting Yard algorithm to handle operator precedence:
-1. Scan expression from left to right
-2. If number: push to number stack
-3. If operator: compare precedence with top of operator stack
-    - Higher precedence: push to operator stack
-    - Lower/equal precedence: evaluate operators in stack first
-4. If opening parenthesis: push to operator stack
-5. If closing parenthesis: evaluate until matching opening parenthesis
+### Mathematical Constants
+- π (pi): 3.14159265358979323846
+- e: 2.71828182845904523536
+
+### Error Handling
+
+- Divide by zero protection
+- Invalid expression detection
+- Runtime error management
 
 ## Building and Running
 
@@ -75,17 +81,15 @@ Input: 2 ^ 3 + 1
 Output: 9
 ```
 
-## Current Development Status
+## Development Status
 - [x] Basic arithmetic operations
-- [x] Expression parsing with Shunting Yard algorithm
-- [x] Stack-based implementation
-- [x] Operator precedence handling
-- [x] Parentheses support
-- [ ] Scientific functions (sin, cos, tan)
-- [ ] Memory functions
-- [ ] Error history logging
+- [x] Expression parsing
+- [x] Operator precedence
+- [x] Error handling
+- [ ] Advanced scientific functions
+- [ ] Memory functionality
 
-## Future Enhancements
+## Planned Enhancements
 1. Scientific Functions
     - Trigonometric functions
     - Logarithmic functions

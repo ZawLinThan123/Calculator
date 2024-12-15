@@ -194,6 +194,8 @@ private:
                 // push back * into operator stack
                 if (i + 1 < expression.length() && !isOperator(expression[i + 1]))
                 {
+                    values.push(std::string(1, operations.top()));
+                    operations.pop();
                     operations.push('*');
                 }
                 else

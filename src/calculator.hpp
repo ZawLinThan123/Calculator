@@ -8,6 +8,7 @@
 #include <string>
 #include <iostream>
 #include <stdexcept>
+#include <algorithm>
 
 // ScientificCalculator: A class that implements a command-line scientific calculator
 // Supports basic arithmetic operations, constants, and expression evaluation
@@ -32,6 +33,9 @@ public:
                 // Prompt for user input
                 std::cout << "\nEnter expression or command: ";
                 getline(std::cin, input);
+
+                // Delete all the whitespaces
+                input.erase(std::remove(input.begin(), input.end(), ' '), input.end());
 
                 // Check for quit command
                 if (input == "q" || input == "Q") {
@@ -126,24 +130,49 @@ private:
         std::stack<char> operations;
         std::queue<std::string> values;
 
-        for (size_t i = 0; i < expression.length(); ++i)
+        for (size_t i = 0; i < expression.length(); i++)
         {
-            // Skip whitespace
-            if (expression[i] == ' ')
-            {
-                continue;
-            }
 
             // Handle multi-digit numbers and decimal numbers
-            if (isdigit(expression[i]) || expression[i] == '.')
+            if (isdigit(expression[i]) || expression[i] == '.' ||
+                (expression[i] == '-' && (i == 0 || (!isdigit(expression[i - 1]) && expression[i - 1] != ')'))))
             {
                 std::string num;
-                while (i < expression.length() && (isdigit(expression[i]) || expression[i] == '.'))
+                if (expression[i] == '-')
                 {
+                    // Include '-' and move to the next character
                     num += expression[i++];
                 }
-                --i; // Adjust for extra increment in the loop
-                values.push(num);
+
+                // Track decimal points to ensure validity
+                bool hasDecimal = false;
+
+                while (i < expression.length() && (isdigit(expression[i]) || expression[i] == '.'))
+                {
+                    if (expression[i] == '.')
+                    {
+                        // Stop if more than one decimal point
+                        if (hasDecimal) {
+                            break;
+                        }
+
+                        // Mark that a decimal point was found
+                        hasDecimal = true;
+                    }
+
+                    num += expression[i++];
+                }
+
+                // Push valid number to the stack
+                if (!num.empty() && (num != "-" && num != "." && num != "-."))
+                {
+                    values.push(num);
+                }
+                else
+                {
+                    throw std::invalid_argument("Invalid number format in expression: " + num);
+                }
+                --i; // Adjust for the extra increment
             }
 
             // Handle opening parenthesis
@@ -203,26 +232,30 @@ private:
         // Process postfix expression
         while (!postfixQueue.empty())
         {
+            std::string token = postfixQueue.front();
+            postfixQueue.pop();
+
             // If current token is an operator
-            if (isOperator(postfixQueue.front()[0]))
+            if (isOperator(token[0]) && token.length() == 1)
             {
                 // Ensure enough operands are available
                 if (postfixStack.size() < 2)
                 {
                     throw std::runtime_error("Invalid expression");
                 }
+
                 // Pop two operands and perform calculation
-                double second = postfixStack.top(); postfixStack.pop();
-                double first = postfixStack.top(); postfixStack.pop();
-                result = calculate(first, second, postfixQueue.front()[0]);
-                postfixQueue.pop();
+                const double second = postfixStack.top();
+                postfixStack.pop();
+                const double first = postfixStack.top();
+                postfixStack.pop();
+                result = calculate(first, second, token[0]);
                 postfixStack.push(result);
             }
             else
             {
                 // If token is a number, push to stack
-                postfixStack.push(std::stod(postfixQueue.front()));
-                postfixQueue.pop();
+                postfixStack.push(std::stod(token));
             }
         }
 

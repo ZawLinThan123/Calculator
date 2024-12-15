@@ -178,6 +178,11 @@ private:
             // Handle opening parenthesis
             else if (expression[i] == '(')
             {
+                unsigned temp = i-1;
+                if (isdigit(expression[temp]))
+                {
+                    operations.push('*');
+                }
                 operations.push(expression[i]);
             }
 
@@ -185,15 +190,24 @@ private:
             // Pop operators until matching opening parenthesis is found
             else if (expression[i] == ')')
             {
-                while (!operations.empty() && operations.top() != '(')
+                // "temp" variable used to store the next index of current index
+                unsigned temp = i+1;
+                // check if the next character is not operator and it is not
+                // if it is not operator, it means multiplication
+                // push back * into operator stack
+                if (temp < expression.length() && !isOperator(expression[temp]))
                 {
-                    values.push(std::string(1, operations.top()));
-                    operations.pop();
-                }
-
-                if (!operations.empty())
-                {
-                    operations.pop(); // Remove '('
+                    operations.push('*');
+                } else {
+                    while (!operations.empty() && operations.top() != '(')
+                    {
+                        values.push(std::string(1, operations.top()));
+                        operations.pop();
+                    }
+                    if (!operations.empty())
+                    {
+                        operations.pop(); // Remove '('
+                    }
                 }
             }
 
@@ -213,8 +227,17 @@ private:
         // Pop remaining operators from the stack
         while (!operations.empty())
         {
-            values.push(std::string(1, operations.top()));
-            operations.pop();
+            // if there is '(' left in the operator stack, just remove it
+            // e.g., the expression like (9)9 will result in '(' and '*' in operators but only '*' is to be used
+            if (operations.top()=='(')
+            {
+                operations.pop();
+            }
+            // else, push back all other operators into the queue
+            else {
+                values.push(std::string(1, operations.top()));
+                operations.pop();
+            }
         }
 
         return values;

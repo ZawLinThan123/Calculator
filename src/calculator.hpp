@@ -178,8 +178,7 @@ private:
             // Handle opening parenthesis
             else if (expression[i] == '(')
             {
-                unsigned temp = i-1;
-                if (isdigit(expression[temp]))
+                if (isdigit(expression[i - 1]))
                 {
                     operations.push('*');
                 }
@@ -190,15 +189,15 @@ private:
             // Pop operators until matching opening parenthesis is found
             else if (expression[i] == ')')
             {
-                // "temp" variable used to store the next index of current index
-                unsigned temp = i+1;
-                // check if the next character is not operator and it is not
+                // check if the next character is not operator, and it is not
                 // if it is not operator, it means multiplication
                 // push back * into operator stack
-                if (temp < expression.length() && !isOperator(expression[temp]))
+                if (i + 1 < expression.length() && !isOperator(expression[i + 1]))
                 {
                     operations.push('*');
-                } else {
+                }
+                else
+                {
                     while (!operations.empty() && operations.top() != '(')
                     {
                         values.push(std::string(1, operations.top()));

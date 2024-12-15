@@ -189,26 +189,23 @@ private:
             // Pop operators until matching opening parenthesis is found
             else if (expression[i] == ')')
             {
-                // check if the next character is not operator, and it is not
-                // if it is not operator, it means multiplication
-                // push back * into operator stack
-                if (i + 1 < expression.length() && !isOperator(expression[i + 1]))
+                // Process all operators until we find the matching '('
+                while (!operations.empty() && operations.top() != '(')
                 {
                     values.push(std::string(1, operations.top()));
                     operations.pop();
-                    operations.push('*');
                 }
-                else
+
+                // Remove the '(' if it exists
+                if (!operations.empty())
                 {
-                    while (!operations.empty() && operations.top() != '(')
-                    {
-                        values.push(std::string(1, operations.top()));
-                        operations.pop();
-                    }
-                    if (!operations.empty())
-                    {
-                        operations.pop(); // Remove '('
-                    }
+                    operations.pop();
+                }
+
+                // Check for implicit multiplication: (2)(3) -> (2)*(3)
+                if (i + 1 < expression.length() && !isOperator(expression[i + 1]))
+                {
+                    operations.push('*');
                 }
             }
 
